@@ -1,10 +1,11 @@
 import Head from 'next/head';
 
 import Layout, { siteTitle } from '../components/layout';
+import { getPosts } from '../lib/posts';
 
 import utilStyles from '../styles/utils.module.css';
 
-export default function Home() {
+export default function Home({ allPosts }) {
   return (
     <Layout home>
       <Head>
@@ -23,6 +24,30 @@ export default function Home() {
           </a>
         </p>
       </section>
+
+      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+        <h2 className={utilStyles.headingLg}>Ceunah Heeh</h2>
+        <ul className={utilStyles.list}>
+          {allPosts.map((el) => (
+            <li className={utilStyles.listItem} key={el.id}>
+              {el.title} <br />
+              {el.id} <br />
+              {el.date} <br />
+            </li>
+          ))}
+        </ul>
+      </section>
     </Layout>
   );
+}
+
+export async function getStaticProps() {
+  const allPosts = getPosts();
+  const struct = {
+    props: {
+      allPosts,
+    },
+  };
+
+  return struct;
 }
