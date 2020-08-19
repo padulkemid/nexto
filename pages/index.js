@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 
 import Layout, { siteTitle } from '../components/layout';
 import { getPosts } from '../lib/posts';
@@ -26,13 +27,15 @@ export default function Home({ allPosts }) {
       </section>
 
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Ceunah Heeh</h2>
+        <h2 className={utilStyles.headingLg}>Blog na</h2>
         <ul className={utilStyles.list}>
           {allPosts.map((el) => (
             <li className={utilStyles.listItem} key={el.id}>
-              {el.title} <br />
-              {el.id} <br />
-              {el.date} <br />
+              <Link href="/posts/[id]" as={`/posts/${el.id}`}>
+                <a>{el.title}</a>
+              </Link>
+              <br />
+              <small className={utilStyles.lightText}>{el.date}</small>
             </li>
           ))}
         </ul>

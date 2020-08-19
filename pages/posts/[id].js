@@ -1,13 +1,21 @@
+import Head from 'next/head';
+
 import Layout from '../../components/layout';
+import utilStyles from '../../styles/utils.module.css';
 import { getPostsId, getPostData } from '../../lib/posts';
 
 export default function Post({ postData }) {
-  const { title, id, date } = postData;
+  const { title, date, contentAsli } = postData;
   return (
     <Layout>
-      {title} <br />
-      {id} <br />
-      {date}
+      <Head>
+        <title>{title}</title>
+      </Head>
+      <article>
+        <h1 className={utilStyles.headingXl}>{title}</h1>
+        <div className={utilStyles.lightText}>{date}</div>
+        <div dangerouslySetInnerHTML={{ __html: contentAsli }} />
+      </article>
     </Layout>
   );
 }
@@ -24,7 +32,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const { id } = params;
-  const postData = getPostData(id);
+  const postData = await getPostData(id);
   const struct = {
     props: {
       postData,
